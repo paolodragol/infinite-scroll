@@ -10,19 +10,19 @@ let totImages = 0;
 let photosArray = [];
 
 // Unsplash API
-const numImgs = 30;
+let numImgsToLoad = 5;
 const collection = 'travel';
 
-const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${numImgs}`;
+let apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=`;
 
 
 // Check if all images have been loaded
 function imageLoaded() {
-    console.log('image loaded');
     numImgsLoaded++;
     if (numImgsLoaded === totImages) {
         loadedImgReady = true;
-
+        loader.hidden = true;
+        numImgsToLoad = 30;
     }
 }
 
@@ -73,7 +73,7 @@ function displayPhotos() {
 // Get photos from Unsplash API
 async function getPhotos() {
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl + numImgsToLoad);
         photosArray = await response.json();
         displayPhotos();
     } catch (error) {
